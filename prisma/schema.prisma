@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Project {
+  id               String         @id @default(cuid())
+  title            String
+  slug             String         @unique
+  summary          String         @db.VarChar(400)
+  category         String?
+  content          String?        @db.Text
+  coverImage       String?
+  galleryImages    String[]
+  stack            String[]
+  status           ProjectStatus   @default(DRAFT)
+  featured         Boolean        @default(false)
+  sortOrder        Int            @default(0)
+  githubUrl        String?
+  liveUrl          String?
+  architectureNotes String?        @db.Text
+  challenges       String?        @db.Text
+  solutions        String?        @db.Text
+  metrics          Json?
+  seo              Json?
+  previewImage     String?
+  publishedAt      DateTime?
+  deletedAt        DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([status, featured])
+  @@index([sortOrder])
+  @@index([deletedAt])
+  @@index([publishedAt])
+}
+
+model Blog {
+  id              String    @id @default(cuid())
+  title           String
+  slug            String    @unique
+  excerpt         String    @db.VarChar(280)
+  content         String    @db.Text
+  markdown        String?   @db.Text
+  coverImage      String?
+  status          BlogStatus @default(DRAFT)
+  featured        Boolean   @default(false)
+  readingTime     Int       @default(0)
+  seo             Json?
+  publishedAt     DateTime?
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  categories  BlogCategoryOnBlog[]
+  tags        BlogTagOnBlog[]
+
+  @@index([status])
+  @@index([featured])
+  @@index([deletedAt])
+  @@index([publishedAt])
+}
+
+model Experience {
+  id          String    @id @default(cuid())
+  company     String
+  role        String
+  slug        String    @unique
+  location    String?
+  summary     String    @db.VarChar(400)
+  startDate   DateTime
+  endDate     DateTime?
+  featured    Boolean   @default(false)
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([featured])
+  @@index([deletedAt])
+  @@index([startDate, endDate])
+}
+
+model Skill {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  category    String
+  level       Int?
+  description String?   @db.VarChar(280)
+  featured    Boolean   @default(false)
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([category, featured])
+  @@index([deletedAt])
+}
+
+model SiteSettings {
+  id              String   @id @default(cuid())
+  siteName        String
+  siteDescription String   @db.VarChar(320)
+  siteUrl         String
+  email           String?
+  socialLinks     Json?
+  metadata        Json?
+  profileImage    String?
+  profileImageAlt String?
+  profileImageBlurDataUrl String? @db.Text
+  profileImageWidth Int?
+  profileImageHeight Int?
+  deletedAt       DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([deletedAt])
+}
+
+model BlogCategory {
+  id      String @id @default(cuid())
+  name    String
+  slug    String @unique
+  blogs   BlogCategoryOnBlog[]
+
+  @@index([slug])
+}
+
+model BlogTag {
+  id      String @id @default(cuid())
+  name    String
+  slug    String @unique
+  blogs   BlogTagOnBlog[]
+
+  @@index([slug])
+}
+
+model BlogCategoryOnBlog {
+  blogId     String
+  categoryId String
+  blog       Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  category   BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, categoryId])
+  @@index([categoryId])
+}
+
+model BlogTagOnBlog {
+  blogId String
+  tagId   String
+  blog   Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  tag    BlogTag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, tagId])
+  @@index([tagId])
+}
