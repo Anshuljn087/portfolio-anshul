@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { getPrisma } from '@/lib/prisma'
 import type { BlogInput } from '@/services/repositories/types'
 
@@ -9,48 +10,57 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, '')
 }
 
+const blogWithRelationsInclude = Prisma.validator<Prisma.BlogInclude>()({
+  categories: { include: { category: true } },
+  tags: { include: { tag: true } },
+})
+
+export type BlogWithRelations = Prisma.BlogGetPayload<{
+  include: typeof blogWithRelationsInclude
+}>
+
 export const blogRepository = {
-  async findMany() {
+  async findMany(): Promise<BlogWithRelations[]> {
     try {
       const prisma = await getPrisma()
       return prisma.blog.findMany({
         where: { deletedAt: null },
         orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }, { updatedAt: 'desc' }],
-        include: { categories: { include: { category: true } }, tags: { include: { tag: true } } },
+        include: blogWithRelationsInclude,
       })
     } catch {
       return []
     }
   },
-  async findPublished() {
+  async findPublished(): Promise<BlogWithRelations[]> {
     try {
       const prisma = await getPrisma()
       return prisma.blog.findMany({
         where: { deletedAt: null, status: 'PUBLISHED' },
         orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }, { updatedAt: 'desc' }],
-        include: { categories: { include: { category: true } }, tags: { include: { tag: true } } },
+        include: blogWithRelationsInclude,
       })
     } catch {
       return []
     }
   },
-  async findById(id: string) {
+  async findById(id: string): Promise<BlogWithRelations | null> {
     try {
       const prisma = await getPrisma()
       return prisma.blog.findFirst({
         where: { id, deletedAt: null },
-        include: { categories: { include: { category: true } }, tags: { include: { tag: true } } },
+        include: blogWithRelationsInclude,
       })
     } catch {
       return null
     }
   },
-  async findBySlug(slug: string) {
+  async findBySlug(slug: string): Promise<BlogWithRelations | null> {
     try {
       const prisma = await getPrisma()
       return prisma.blog.findFirst({
         where: { slug, deletedAt: null, status: 'PUBLISHED' },
-        include: { categories: { include: { category: true } }, tags: { include: { tag: true } } },
+        include: blogWithRelationsInclude,
       })
     } catch {
       return null

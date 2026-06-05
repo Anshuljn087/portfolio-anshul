@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getBlogBySlug } from '@/services/blog-store'
+import type { BlogWithRelations } from '@/services/repositories/blog-repository'
 import { buildBaseMetadata, structuredDataJson, buildCanonicalUrl } from '@/services/seo'
 
 export async function generateMetadata({
@@ -9,7 +10,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const blog = await getBlogBySlug(slug).catch(() => null)
+  const blog: BlogWithRelations | null = await getBlogBySlug(slug).catch(() => null)
   if (!blog) return {}
   const seo = (blog.seo as { title?: string; description?: string } | null) ?? {}
   return buildBaseMetadata({
@@ -68,7 +69,7 @@ export default async function BlogDetailPage({
         <div dangerouslySetInnerHTML={{ __html: blog.content }} />
       </div>
       <div className="mt-10 flex flex-wrap gap-2">
-        {blog.tags?.map((item) => (
+        {blog.tags.map((item) => (
           <span
             key={item.tagId}
             className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"

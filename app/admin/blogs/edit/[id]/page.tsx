@@ -31,7 +31,7 @@ export default async function EditBlogPage({
             coverImage: blog.coverImage ?? '',
             status: blog.status.toLowerCase() as 'draft' | 'published',
             featured: blog.featured,
-            tags: blog.tags?.map((item) => item.tag.name).join(', '),
+            tags: blog.tags.map((item) => item.tag.name).join(', '),
             seo: blog.seo ? JSON.stringify(blog.seo, null, 2) : '',
           }}
         />
