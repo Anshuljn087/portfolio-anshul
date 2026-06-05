@@ -2,7 +2,7 @@ import { ProfileImageManager } from '@/components/admin/profile-image-manager'
 import { siteSettingsRepository } from '@/services/repositories/site-settings-repository'
 
 export default async function ProfileImagePage() {
-  const settings = await siteSettingsRepository.findLatest()
+  const settings = await siteSettingsRepository.findLatest().catch(() => null)
 
   return (
     <div className="space-y-6">

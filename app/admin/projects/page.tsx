@@ -5,7 +5,7 @@ import { ToggleFeaturedButton } from '@/components/admin/toggle-featured-button'
 import { ProjectOrderControls } from '@/components/admin/project-order-controls'
 
 export default async function ProjectsPage() {
-  const projects = await listProjects()
+  const projects = await listProjects().catch(() => [])
   const ids = projects.map((project) => project.id)
 
   return (
@@ -32,27 +32,31 @@ export default async function ProjectsPage() {
           <span className="text-right">Actions</span>
         </div>
         <div className="divide-y divide-white/10">
-          {projects.map((project) => (
-            <div key={project.id} className="grid grid-cols-[1.2fr_0.7fr_0.7fr_0.6fr_0.7fr_0.8fr] gap-4 px-5 py-4">
-              <div>
-                <p className="font-medium">{project.title}</p>
-                <p className="text-sm text-muted-foreground">{project.summary}</p>
+          {projects.length > 0 ? (
+            projects.map((project) => (
+              <div key={project.id} className="grid grid-cols-[1.2fr_0.7fr_0.7fr_0.6fr_0.7fr_0.8fr] gap-4 px-5 py-4">
+                <div>
+                  <p className="font-medium">{project.title}</p>
+                  <p className="text-sm text-muted-foreground">{project.summary}</p>
+                </div>
+                <p className="text-sm text-muted-foreground">{project.status}</p>
+                <p className="text-sm text-muted-foreground">{project.stack.join(', ')}</p>
+                <ToggleFeaturedButton id={project.id} featured={project.featured} />
+                <ProjectOrderControls ids={ids} activeId={project.id} />
+                <div className="flex justify-end gap-3 text-sm">
+                  <Link href={`/projects/${project.slug}`} className="hover:text-cyan-300">
+                    Preview
+                  </Link>
+                  <Link href={`/admin/projects/edit/${project.id}`} className="hover:text-cyan-300">
+                    Edit
+                  </Link>
+                  <DeleteProjectButton id={project.id} />
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground">{project.status}</p>
-              <p className="text-sm text-muted-foreground">{project.stack.join(', ')}</p>
-              <ToggleFeaturedButton id={project.id} featured={project.featured} />
-              <ProjectOrderControls ids={ids} activeId={project.id} />
-              <div className="flex justify-end gap-3 text-sm">
-                <Link href={`/projects/${project.slug}`} className="hover:text-cyan-300">
-                  Preview
-                </Link>
-                <Link href={`/admin/projects/edit/${project.id}`} className="hover:text-cyan-300">
-                  Edit
-                </Link>
-                <DeleteProjectButton id={project.id} />
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="px-5 py-8 text-sm text-muted-foreground">No projects available yet.</div>
+          )}
         </div>
       </div>
     </div>

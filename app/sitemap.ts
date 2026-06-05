@@ -5,8 +5,8 @@ import { buildCanonicalUrl } from '@/services/seo'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [blogs, projects] = await Promise.all([
-    listPublishedBlogs(),
-    projectRepository.findMany(),
+    listPublishedBlogs().catch(() => []),
+    projectRepository.findMany().catch(() => []),
   ])
 
   const basePages: MetadataRoute.Sitemap = [

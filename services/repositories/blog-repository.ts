@@ -63,6 +63,7 @@ export const blogRepository = {
     return prisma.blog.create({
       data: {
         ...rest,
+        seo: rest.seo ?? undefined,
         tags: {
           create: await Promise.all(
             tags.map(async (name) => {
@@ -92,6 +93,7 @@ export const blogRepository = {
       where: { id },
       data: {
         ...rest,
+        seo: rest.seo ?? undefined,
         tags: {
           create: await Promise.all(
             tags.map(async (name) => {

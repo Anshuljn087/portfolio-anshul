@@ -13,7 +13,7 @@ export type ArchitectureEdge = {
   source: string
   target: string
   label: string
-  style: 'primary' | 'retry' | 'bidirectional' | 'observability' | 'event'
+  style: 'primary' | 'retry' | 'bidirectional' | 'observability' | 'event' | 'success'
 }
 
 export type ArchitectureCaseStudy = {
@@ -30,4 +30,15 @@ export type ArchitectureCaseStudy = {
   lessons: string[]
   nodes: ArchitectureNode[]
   edges: ArchitectureEdge[]
+  extraSections?: {
+    architectureDiagramTitle?: string
+    stateMachine?: {
+      states: Array<{ id: string; label: string; note?: string }>
+      transitions: Array<{ from: string; to: string; label: string; style?: 'primary' | 'success' | 'failure' }>
+    }
+    configSample?: string
+    configHighlights?: Array<{ key: string; value: string }>
+    monorepo?: Array<{ label: string; detail: string }>
+    impactMetrics?: Array<{ label: string; value: string; detail: string }>
+  }
 }

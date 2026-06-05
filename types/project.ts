@@ -8,7 +8,7 @@ export type PublicProject = {
   title: string
   slug: string
   summary: string
-  category: string | null
+  category?: string | null
   coverImage: string | null
   galleryImages: string[]
   stack: string[]

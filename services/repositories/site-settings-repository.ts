@@ -15,19 +15,45 @@ export const siteSettingsRepository = {
   },
   async create(data: SiteSettingsInput) {
     const prisma = await getPrisma()
-    return prisma.siteSettings.create({ data })
+    return prisma.siteSettings.create({
+      data: {
+        ...data,
+        socialLinks: data.socialLinks ?? undefined,
+        metadata: data.metadata ?? undefined,
+      },
+    })
   },
   async upsertSingle(data: SiteSettingsInput) {
     const prisma = await getPrisma()
     const latest = await this.findLatest()
     if (latest) {
-      return prisma.siteSettings.update({ where: { id: latest.id }, data })
+      return prisma.siteSettings.update({
+        where: { id: latest.id },
+        data: {
+          ...data,
+          socialLinks: data.socialLinks ?? undefined,
+          metadata: data.metadata ?? undefined,
+        },
+      })
     }
-    return prisma.siteSettings.create({ data })
+    return prisma.siteSettings.create({
+      data: {
+        ...data,
+        socialLinks: data.socialLinks ?? undefined,
+        metadata: data.metadata ?? undefined,
+      },
+    })
   },
   async update(id: string, data: SiteSettingsInput) {
     const prisma = await getPrisma()
-    return prisma.siteSettings.update({ where: { id }, data })
+    return prisma.siteSettings.update({
+      where: { id },
+      data: {
+        ...data,
+        socialLinks: data.socialLinks ?? undefined,
+        metadata: data.metadata ?? undefined,
+      },
+    })
   },
   async replaceProfileImage(data: SiteSettingsInput) {
     return this.upsertSingle(data)

@@ -244,7 +244,9 @@ function renderEdge(edge: ArchitectureEdge, nodesById: Record<string, Architectu
   const mx = (sx + tx) / 2
 
   const stroke =
-    edge.style === 'retry'
+    edge.style === 'success'
+      ? '#10B981'
+      : edge.style === 'retry'
       ? '#F59E0B'
       : edge.style === 'observability'
         ? '#64748B'

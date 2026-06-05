@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { LoginForm } from '@/components/admin/login-form'
 
 export default function AdminLoginPage() {
@@ -10,9 +11,20 @@ export default function AdminLoginPage() {
           Enter the dashboard password to access protected routes.
         </p>
         <div className="mt-8">
-          <LoginForm />
+          <Suspense fallback={<LoginFormFallback />}>
+            <LoginForm />
+          </Suspense>
         </div>
       </div>
+    </div>
+  )
+}
+
+function LoginFormFallback() {
+  return (
+    <div className="space-y-5">
+      <div className="h-12 rounded-2xl border border-white/10 bg-white/[0.04]" />
+      <div className="h-12 rounded-2xl border border-white/10 bg-white/[0.04]" />
     </div>
   )
 }

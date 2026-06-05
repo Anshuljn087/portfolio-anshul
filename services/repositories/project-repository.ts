@@ -50,13 +50,23 @@ export const projectRepository = {
   },
   async create(data: ProjectInput) {
     const prisma = await getPrisma()
-    return prisma.project.create({ data })
+    return prisma.project.create({
+      data: {
+        ...data,
+        metrics: data.metrics ?? undefined,
+        seo: data.seo ?? undefined,
+      },
+    })
   },
   async update(id: string, data: ProjectInput) {
     const prisma = await getPrisma()
     return prisma.project.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        metrics: data.metrics ?? undefined,
+        seo: data.seo ?? undefined,
+      },
     })
   },
   async softDelete(id: string) {

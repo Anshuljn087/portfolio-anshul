@@ -5,8 +5,8 @@ import { ProfileAvatar } from '@/components/media/profile-avatar'
 
 export default async function AdminDashboardPage() {
   const [projects, settings] = await Promise.all([
-    listProjects(),
-    siteSettingsRepository.findLatest(),
+    listProjects().catch(() => []),
+    siteSettingsRepository.findLatest().catch(() => null),
   ])
   const featuredCount = projects.filter((project) => project.featured).length
 

@@ -180,4 +180,207 @@ const notificationStudy: ArchitectureCaseStudy = {
   ],
 }
 
-export const architectureCaseStudies = [notificationStudy]
+const fsmLowCodeStudy: ArchitectureCaseStudy = {
+  slug: 'fsm-lowcode-platform',
+  title: 'Configuration Driven UI Platform',
+  summary:
+    'A finite-state-machine powered UI platform that renders onboarding and payment journeys from JSON, reducing front-end delivery work and centralizing orchestration logic.',
+  chips: ['React', 'Node.js', 'FSM', 'JSON Config', 'Monorepo'],
+  outcome:
+    'Journeys became configuration-driven, allowing teams to launch and modify flows without building new screens for every variation.',
+  stack: ['React', 'Node.js', 'Finite State Machine', 'JSON', 'Monorepo'],
+  metrics: [
+    { label: 'Journey Delivery', value: 'Faster', detail: 'Reduced time to ship new onboarding/payment flows' },
+    { label: 'Reusable UI', value: 'Shared', detail: 'One engine rendered many journeys from config' },
+    { label: 'API Orchestration', value: 'Centralized', detail: 'State actions and API calls were coordinated in one layer' },
+    { label: 'Frontend Changes', value: 'Lower', detail: 'Most updates moved from code to configuration' },
+  ],
+  overview: [
+    'Journey configuration is parsed into an executable runtime model.',
+    'The FSM engine resolves the current state and allowed transitions.',
+    'A page rendering engine selects the right UI from shared components.',
+    'An event engine emits analytics and state transition signals.',
+  ],
+  challenges: [
+    'Preventing invalid state transitions in dynamic journeys.',
+    'Keeping API orchestration and validation rules consistent across flows.',
+    'Avoiding duplication while supporting many payment and onboarding variants.',
+    'Making config changes safe for non-engineering teams.',
+  ],
+  scaling: [
+    'Move journey logic into versioned JSON definitions.',
+    'Share the FSM engine, types, and UI library across apps in the monorepo.',
+    'Keep fallback handling and transition resolution centralized.',
+    'Use a single orchestration contract for API calls and validation.',
+  ],
+  lessons: [
+    'Configuration-driven UX only works when state rules are explicit.',
+    'A shared runtime reduces duplication more than shared UI alone.',
+    'Monorepo boundaries matter when the same engine powers many journeys.',
+    'Fallback behavior should be part of the contract, not an afterthought.',
+  ],
+  nodes: [
+    {
+      id: 'config',
+      label: 'Journey Configuration',
+      subtitle: 'Input Layer',
+      layer: 'client',
+      x: 60,
+      y: 220,
+      details: ['JSON definitions describe layout, actions, state, and validation rules.'],
+    },
+    {
+      id: 'parser',
+      label: 'Configuration Parser',
+      subtitle: 'Runtime Loader',
+      layer: 'api',
+      x: 360,
+      y: 220,
+      details: ['Normalizes raw JSON.', 'Builds executable journey definitions.'],
+    },
+    {
+      id: 'fsm',
+      label: 'FSM Engine',
+      subtitle: 'Core Logic',
+      layer: 'event',
+      x: 660,
+      y: 220,
+      details: ['Controls allowed states.', 'Guards transitions and branching.'],
+    },
+    {
+      id: 'renderer',
+      label: 'Page Rendering Engine',
+      subtitle: 'UI Layer',
+      layer: 'service',
+      x: 960,
+      y: 220,
+      details: ['Selects screens from component registry.', 'Renders the current step dynamically.'],
+    },
+    {
+      id: 'events',
+      label: 'Event Engine',
+      subtitle: 'Telemetry Layer',
+      layer: 'monitoring',
+      x: 1260,
+      y: 120,
+      details: ['Emits journey, state, and error events.'],
+    },
+    {
+      id: 'api',
+      label: 'API Orchestrator',
+      subtitle: 'Service Layer',
+      layer: 'service',
+      x: 1260,
+      y: 320,
+      details: ['Coordinates backend requests.', 'Applies validation and response mapping.'],
+    },
+    {
+      id: 'fallback',
+      label: 'Fallback Handler',
+      subtitle: 'Safety Layer',
+      layer: 'event',
+      x: 1560,
+      y: 220,
+      details: ['Routes invalid journeys to safe alternatives.', 'Keeps users moving through the flow.'],
+    },
+    {
+      id: 'resolver',
+      label: 'State Resolver',
+      subtitle: 'Transition Engine',
+      layer: 'api',
+      x: 1860,
+      y: 220,
+      details: ['Determines the next state.', 'Validates transition outcomes.'],
+    },
+    {
+      id: 'next',
+      label: 'Next Screen',
+      subtitle: 'Rendered Output',
+      layer: 'external',
+      x: 2160,
+      y: 220,
+      details: ['The UI advances to the next journey screen.'],
+    },
+    {
+      id: 'monorepo',
+      label: 'Monorepo',
+      subtitle: 'Shared Platform',
+      layer: 'monitoring',
+      x: 60,
+      y: 560,
+      details: ['Shared UI, FSM engine, contracts, and journey definitions live together.'],
+    },
+  ],
+  edges: [
+    { id: 'f1', source: 'config', target: 'parser', label: 'Parse JSON', style: 'primary' },
+    { id: 'f2', source: 'parser', target: 'fsm', label: 'Build State Model', style: 'event' },
+    { id: 'f3', source: 'fsm', target: 'renderer', label: 'Resolve View', style: 'primary' },
+    { id: 'f4', source: 'renderer', target: 'events', label: 'Emit Events', style: 'observability' },
+    { id: 'f5', source: 'renderer', target: 'api', label: 'API Call', style: 'primary' },
+    { id: 'f6', source: 'api', target: 'fallback', label: 'Fallback Route', style: 'retry' },
+    { id: 'f7', source: 'fallback', target: 'resolver', label: 'Resolve Transition', style: 'primary' },
+    { id: 'f8', source: 'resolver', target: 'next', label: 'Next Screen', style: 'success' },
+    { id: 'f9', source: 'config', target: 'monorepo', label: 'Shared Definitions', style: 'bidirectional' },
+  ],
+  extraSections: {
+    architectureDiagramTitle: 'Configuration Driven UI Architecture',
+    stateMachine: {
+      states: [
+        { id: 'start', label: 'Start' },
+        { id: 'review', label: 'Review' },
+        { id: 'validate', label: 'Validate' },
+        { id: 'process', label: 'Process' },
+        { id: 'confirmation', label: 'Confirmation' },
+        { id: 'fallback', label: 'Fallback' },
+        { id: 'retry', label: 'Retry' },
+      ],
+      transitions: [
+        { from: 'start', to: 'review', label: 'begin', style: 'primary' },
+        { from: 'review', to: 'validate', label: 'submit', style: 'primary' },
+        { from: 'validate', to: 'process', label: 'valid', style: 'success' },
+        { from: 'process', to: 'confirmation', label: 'success', style: 'success' },
+        { from: 'process', to: 'fallback', label: 'failure', style: 'failure' },
+        { from: 'fallback', to: 'retry', label: 'retry', style: 'retry' },
+        { from: 'retry', to: 'process', label: 're-run', style: 'primary' },
+      ],
+    },
+    configSample: `{
+  "journeyId": "payment-onboarding-v2",
+  "pages": [
+    { "id": "review", "layout": "two-column", "components": ["summary", "cta"] },
+    { "id": "validate", "actions": ["verifyUser", "checkLimit"] }
+  ],
+  "transitions": {
+    "review": "validate",
+    "validate": "process",
+    "process": ["confirmation", "fallback"]
+  },
+  "fallback": {
+    "onError": "retry",
+    "onTimeout": "support"
+  }
+}`,
+    configHighlights: [
+      { key: 'Layout', value: 'Declared in JSON' },
+      { key: 'Actions', value: 'Runtime mapped' },
+      { key: 'State', value: 'FSM controlled' },
+      { key: 'Fallback', value: 'Contract based' },
+    ],
+    monorepo: [
+      { label: 'Shared UI Library', detail: 'Reusable primitives used by every journey screen' },
+      { label: 'FSM Engine', detail: 'The core runtime that resolves transitions and guards' },
+      { label: 'Shared Types', detail: 'Typed contracts for configs, events, and API payloads' },
+      { label: 'Journey Definitions', detail: 'Versioned JSON flows that product teams can evolve' },
+      { label: 'API Layer', detail: 'Backend orchestration and validation adapters' },
+      { label: 'Applications', detail: 'Consumer apps that render journeys from config' },
+    ],
+    impactMetrics: [
+      { label: 'New Journey Delivery', value: '-60%', detail: 'Less time wiring screens and transitions' },
+      { label: 'Reusable Architecture', value: '1 Runtime', detail: 'One platform powers multiple journeys' },
+      { label: 'Config Driven Workflows', value: 'Higher', detail: 'Product changes move from code to config' },
+      { label: 'Frontend Changes', value: 'Reduced', detail: 'Most flow updates no longer require new UI work' },
+    ],
+  },
+}
+
+export const architectureCaseStudies = [notificationStudy, fsmLowCodeStudy]
