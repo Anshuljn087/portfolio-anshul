@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { BlogForm } from '@/components/admin/blog-form'
 import { getBlog } from '@/services/blog-store'
+import { BlogWithRelations } from '@/services/repositories/blog-repository'
 
 export default async function EditBlogPage({
   params,
@@ -31,7 +32,7 @@ export default async function EditBlogPage({
             coverImage: blog.coverImage ?? '',
             status: blog.status.toLowerCase() as 'draft' | 'published',
             featured: blog.featured,
-            tags: blog.tags.map((item) => item.tag.name).join(', '),
+            tags: blog.tags.map((item: BlogWithRelations['tags'][number]) => item.tag.name).join(', '),
             seo: blog.seo ? JSON.stringify(blog.seo, null, 2) : '',
           }}
         />

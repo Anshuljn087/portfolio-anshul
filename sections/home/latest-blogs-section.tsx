@@ -2,18 +2,12 @@ import Link from 'next/link'
 import { SectionWrapper } from '@/components/layout/section-wrapper'
 import { AnimatedSection } from '@/sections/home/animated-section'
 import { BlogCard } from '@/components/content/blog-card'
+import type { BlogWithRelations } from '@/services/repositories/blog-repository'
 
 export function LatestBlogsSection({
   blogs,
 }: {
-  blogs: Array<{
-    title: string
-    slug: string
-    excerpt: string
-    readingTime: number
-    tags?: Array<{ tagId: string; tag: { name: string } }>
-    categories?: Array<{ categoryId: string; category: { name: string } }>
-  }>
+  blogs: Array<Pick<BlogWithRelations, 'title' | 'slug' | 'excerpt' | 'readingTime' | 'tags' | 'categories'>>
 }) {
   const hasBlogs = blogs.length > 0
 

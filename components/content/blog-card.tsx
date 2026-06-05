@@ -22,7 +22,7 @@ export function BlogCard({
         </div>
         <p className="text-sm leading-7 text-muted-foreground">{blog.excerpt}</p>
         <div className="flex flex-wrap gap-2">
-          {blog.categories.map((item) => (
+          {blog.categories.map((item: BlogWithRelations['categories'][number]) => (
             <span
               key={item.categoryId}
               className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
@@ -30,7 +30,7 @@ export function BlogCard({
               {item.category.name}
             </span>
           ))}
-          {blog.tags.map((item) => (
+          {blog.tags.map((item: BlogWithRelations['tags'][number]) => (
             <span
               key={item.tagId}
               className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"

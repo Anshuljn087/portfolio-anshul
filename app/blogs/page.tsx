@@ -50,7 +50,7 @@ export default async function BlogsIndexPage() {
                 <h2 className="mt-3 text-2xl font-semibold">{blog.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{blog.excerpt}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {blog.tags.map((item) => (
+                  {blog.tags.map((item: BlogWithRelations['tags'][number]) => (
                     <span
                       key={item.tagId}
                       className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
