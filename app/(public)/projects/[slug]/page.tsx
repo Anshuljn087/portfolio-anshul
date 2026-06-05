@@ -80,7 +80,7 @@ export default async function ProjectDetailPage({
           <div>
             <p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">Technology</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {project.stack.map((item) => (
+              {(project.stack as string[]).map((item: string) => (
                 <span key={item} className="rounded-full border border-white/10 px-3 py-1 text-xs">
                   {item}
                 </span>

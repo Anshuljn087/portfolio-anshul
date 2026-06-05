@@ -89,14 +89,24 @@ function StateMachineVisualization({ study }: { study: (typeof architectureCaseS
   const states = study.extraSections?.stateMachine?.states ?? []
   const transitions = study.extraSections?.stateMachine?.transitions ?? []
   const statePositions = Object.fromEntries(
-    states.map((state, index) => [state.id, { x: 60 + index * 210, y: index % 2 === 0 ? 80 : 220 }])
+    states.map((state, index) => [state.id, { x: 60 + index * 210, y: index % 2 === 0 ? 90 : 260 }])
   )
 
   return (
-    <article className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
-      <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">State Machine</p>
-      <div className="relative mt-5 h-[420px] overflow-hidden rounded-[1.5rem] border border-white/5 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_35%),linear-gradient(180deg,rgba(15,23,42,0.88),rgba(11,16,32,0.98))]">
-        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1000 420" fill="none">
+    <article className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">State Machine</p>
+          <h2 className="mt-3 text-xl font-semibold text-slate-100">Journey flow at a glance</h2>
+        </div>
+        <p className="max-w-sm text-sm leading-7 text-slate-400">
+          This canvas shows how a configuration-driven journey moves from start to fallback and retry states.
+        </p>
+      </div>
+
+      <div className="mt-6 overflow-x-auto overflow-y-hidden rounded-[1.5rem] border border-white/5 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_35%),linear-gradient(180deg,rgba(15,23,42,0.88),rgba(11,16,32,0.98))]">
+        <div className="relative min-h-[560px] min-w-[1460px]">
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 1460 560" fill="none" preserveAspectRatio="none">
           {transitions.map((transition) => {
             const from = statePositions[transition.from]
             const to = statePositions[transition.to]
@@ -125,22 +135,30 @@ function StateMachineVisualization({ study }: { study: (typeof architectureCaseS
               </g>
             )
           })}
-        </svg>
-        {states.map((state) => {
-          const pos = statePositions[state.id]
-          if (!pos) return null
-          return (
-            <div
-              key={state.id}
-              className="absolute w-[160px] rounded-[1.25rem] border border-white/10 bg-white/[0.06] p-4 shadow-[0_18px_50px_-30px_rgba(34,211,238,0.25)]"
-              style={{ left: pos.x, top: pos.y }}
-            >
-              <p className="text-[0.65rem] uppercase tracking-[0.3em] text-slate-400">{state.id}</p>
-              <p className="mt-2 text-base font-semibold">{state.label}</p>
-              {state.note ? <p className="mt-2 text-sm text-slate-300">{state.note}</p> : null}
-            </div>
-          )
-        })}
+          </svg>
+          {states.map((state) => {
+            const pos = statePositions[state.id]
+            if (!pos) return null
+            return (
+              <div
+                key={state.id}
+                className="absolute w-[160px] rounded-[1.25rem] border border-white/10 bg-white/[0.07] p-4 shadow-[0_18px_50px_-30px_rgba(34,211,238,0.3)] backdrop-blur-md"
+                style={{ left: pos.x, top: pos.y }}
+              >
+                <div className="h-1 w-10 rounded-full bg-cyan-300/80" />
+                <p className="mt-3 text-[0.65rem] uppercase tracking-[0.3em] text-slate-400">{state.id}</p>
+                <p className="mt-2 text-base font-semibold text-slate-100">{state.label}</p>
+                {state.note ? <p className="mt-2 text-sm leading-6 text-slate-300">{state.note}</p> : null}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-400">
+        <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-2">Primary path</span>
+        <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-emerald-200">Success</span>
+        <span className="rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-2 text-amber-200">Failure</span>
+        <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-2 text-cyan-200">Retry / fallback</span>
       </div>
     </article>
   )

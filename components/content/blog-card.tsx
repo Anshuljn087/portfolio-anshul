@@ -1,16 +1,10 @@
 import Link from 'next/link'
+import type { BlogWithRelations } from '@/services/repositories/blog-repository'
 
 export function BlogCard({
   blog,
 }: {
-  blog: {
-    title: string
-    slug: string
-    excerpt: string
-    readingTime: number
-    tags?: Array<{ tagId: string; tag: { name: string } }>
-    categories?: Array<{ categoryId: string; category: { name: string } }>
-  }
+  blog: Pick<BlogWithRelations, 'title' | 'slug' | 'excerpt' | 'readingTime' | 'tags' | 'categories'>
 }) {
   return (
     <article className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-colors hover:bg-white/[0.07]">
@@ -28,7 +22,7 @@ export function BlogCard({
         </div>
         <p className="text-sm leading-7 text-muted-foreground">{blog.excerpt}</p>
         <div className="flex flex-wrap gap-2">
-          {blog.categories?.map((item) => (
+          {blog.categories.map((item: BlogWithRelations['categories'][number]) => (
             <span
               key={item.categoryId}
               className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
@@ -36,7 +30,7 @@ export function BlogCard({
               {item.category.name}
             </span>
           ))}
-          {blog.tags?.map((item) => (
+          {blog.tags.map((item: BlogWithRelations['tags'][number]) => (
             <span
               key={item.tagId}
               className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"

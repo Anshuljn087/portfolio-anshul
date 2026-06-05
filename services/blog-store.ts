@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import { blogRepository } from '@/services/repositories/blog-repository'
+import type { BlogWithRelations } from '@/services/repositories/blog-repository'
 import type { BlogInput } from '@/services/repositories/types'
 
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true })
@@ -53,19 +54,19 @@ function toBlogInput(values: {
   } satisfies BlogInput
 }
 
-export async function listBlogs() {
+export async function listBlogs(): Promise<BlogWithRelations[]> {
   return blogRepository.findMany()
 }
 
-export async function listPublishedBlogs() {
+export async function listPublishedBlogs(): Promise<BlogWithRelations[]> {
   return blogRepository.findPublished()
 }
 
-export async function getBlog(id: string) {
+export async function getBlog(id: string): Promise<BlogWithRelations | null> {
   return blogRepository.findById(id)
 }
 
-export async function getBlogBySlug(slug: string) {
+export async function getBlogBySlug(slug: string): Promise<BlogWithRelations | null> {
   return blogRepository.findBySlug(slug)
 }
 
