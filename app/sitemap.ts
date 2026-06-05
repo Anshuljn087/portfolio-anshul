@@ -24,19 +24,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  const blogPages: MetadataRoute.Sitemap = blogs.map((blog) => ({
-    url: buildCanonicalUrl(`/blogs/${blog.slug}`),
-    lastModified: blog.updatedAt,
-    changeFrequency: 'weekly',
-    priority: 0.7,
-  }))
+  const blogPages: MetadataRoute.Sitemap = blogs.map(
+    (blog): MetadataRoute.Sitemap[number] => ({
+      url: buildCanonicalUrl(`/blogs/${blog.slug}`),
+      lastModified: blog.updatedAt,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })
+  )
 
-  const projectPages: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: buildCanonicalUrl(`/projects/${project.slug}`),
-    lastModified: project.updatedAt,
-    changeFrequency: 'weekly',
-    priority: 0.75,
-  }))
+  const projectPages: MetadataRoute.Sitemap = projects.map(
+    (project): MetadataRoute.Sitemap[number] => ({
+      url: buildCanonicalUrl(`/projects/${project.slug}`),
+      lastModified: project.updatedAt,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    })
+  )
 
   return [...basePages, ...blogPages, ...projectPages]
 }
