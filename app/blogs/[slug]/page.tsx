@@ -69,7 +69,7 @@ export default async function BlogDetailPage({
         <div dangerouslySetInnerHTML={{ __html: blog.content }} />
       </div>
       <div className="mt-10 flex flex-wrap gap-2">
-        {blog.tags.map((item) => (
+        {blog.tags.map((item: BlogWithRelations['tags'][number]) => (
           <span
             key={item.tagId}
             className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground"
