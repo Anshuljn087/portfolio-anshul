@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import { listProjects } from '@/services/project-store'
+import type { ProjectRecord } from '@/services/project-store'
 import { siteSettingsRepository } from '@/services/repositories/site-settings-repository'
 import { ProfileAvatar } from '@/components/media/profile-avatar'
 
 export default async function AdminDashboardPage() {
   const [projects, settings] = await Promise.all([
-    listProjects().catch(() => []),
+    listProjects().catch(() => [] as ProjectRecord[]),
     siteSettingsRepository.findLatest().catch(() => null),
   ])
-  const featuredCount = projects.filter((project) => project.featured).length
+  const featuredCount = projects.filter((project: ProjectRecord) => project.featured).length
 
   return (
     <div className="space-y-8">

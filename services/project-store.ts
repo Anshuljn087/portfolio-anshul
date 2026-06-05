@@ -1,6 +1,8 @@
 import type { ProjectFormValues } from '@/types/admin'
 import { projectRepository } from '@/services/repositories/project-repository'
 
+export type ProjectRecord = Awaited<ReturnType<typeof projectRepository.findMany>>[number]
+
 function toProjectInput(values: ProjectFormValues) {
   const parseList = (value?: string) =>
     (value ?? '')
@@ -44,23 +46,23 @@ function toProjectInput(values: ProjectFormValues) {
   } as const
 }
 
-export async function listProjects() {
+export async function listProjects(): Promise<ProjectRecord[]> {
   return projectRepository.findMany()
 }
 
-export async function getProject(id: string) {
+export async function getProject(id: string): Promise<ProjectRecord | null> {
   return projectRepository.findById(id)
 }
 
-export async function createProject(values: ProjectFormValues) {
+export async function createProject(values: ProjectFormValues): Promise<ProjectRecord> {
   return projectRepository.create(toProjectInput(values))
 }
 
-export async function updateProject(id: string, values: ProjectFormValues) {
+export async function updateProject(id: string, values: ProjectFormValues): Promise<ProjectRecord> {
   return projectRepository.update(id, toProjectInput(values))
 }
 
-export async function deleteProject(id: string) {
+export async function deleteProject(id: string): Promise<ProjectRecord> {
   return projectRepository.softDelete(id)
 }
 
