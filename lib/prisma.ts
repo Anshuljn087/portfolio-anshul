@@ -11,6 +11,8 @@ let prismaPromise: Promise<PrismaClient> | null = null
 
 function createAdapter(databaseUrl: string) {
   const url = new URL(databaseUrl)
+  const sslMode = url.searchParams.get('sslmode')
+  const sslEnabled = url.searchParams.get('ssl') === 'true' || sslMode === 'require'
 
   return new PrismaPg({
     host: url.hostname,
@@ -18,7 +20,7 @@ function createAdapter(databaseUrl: string) {
     database: url.pathname.replace(/^\//, ''),
     user: decodeURIComponent(url.username),
     password: decodeURIComponent(url.password || ''),
-    ssl: url.searchParams.get('ssl') === 'true' ? { rejectUnauthorized: false } : undefined,
+    ssl: sslEnabled ? { rejectUnauthorized: false } : undefined,
   })
 }
 
