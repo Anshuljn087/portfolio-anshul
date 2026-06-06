@@ -22,6 +22,15 @@ function createAdapter(databaseUrl: string) {
   })
 }
 
+function isLocalDatabaseUrl(databaseUrl: string) {
+  try {
+    const url = new URL(databaseUrl)
+    return ['localhost', '127.0.0.1', '::1'].includes(url.hostname)
+  } catch {
+    return false
+  }
+}
+
 export async function getPrisma() {
   if (globalForPrisma.prisma) {
     return globalForPrisma.prisma
@@ -33,6 +42,12 @@ export async function getPrisma() {
 
       if (!databaseUrl) {
         throw new Error('DATABASE_URL is not configured')
+      }
+
+      if (isLocalDatabaseUrl(databaseUrl)) {
+        throw new Error(
+          'DATABASE_URL points to a local database. Set a production database URL in Vercel environment variables.',
+        )
       }
 
       const adapter = createAdapter(databaseUrl)
