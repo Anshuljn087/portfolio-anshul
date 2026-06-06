@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { Prisma } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 import { siteConfig } from '@/constants/site'
 import { siteSettingsRepository } from '@/services/repositories/site-settings-repository'
 
@@ -171,6 +172,10 @@ export async function PUT(request: Request) {
     const siteSettings = latest
       ? await siteSettingsRepository.update(latest.id, payload)
       : await siteSettingsRepository.create(payload)
+
+    revalidatePath('/')
+    revalidatePath('/admin')
+    revalidatePath('/admin/site')
 
     return NextResponse.json({ siteSettings })
   } catch (error) {
