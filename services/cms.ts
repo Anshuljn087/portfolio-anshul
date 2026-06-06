@@ -7,6 +7,7 @@ import { siteConfig } from '@/constants/site'
 import type { SiteContent } from '@/types/cms'
 
 type JsonRecord = Record<string, unknown>
+type HomepageSectionKey = 'hero' | 'about' | 'skills' | 'experience' | 'projects' | 'blogs' | 'contact'
 
 export const defaultContent: SiteContent = {
   profileImage: null,
@@ -162,6 +163,8 @@ function asStats(value: unknown) {
 
 function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null | undefined): SiteContent {
   const direct = siteSettings ?? {}
+  const metadataRecord = metadata as Record<string, unknown>
+  const metadataSocialLinks = metadataRecord.socialLinks
   const hero = asRecord(metadata.hero)
   const about = asRecord(metadata.about)
   const contact = asRecord(metadata.contact)
@@ -176,6 +179,7 @@ function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null 
   const projectsSection = asRecord(homepage.projectsSection)
   const blogsSection = asRecord(homepage.blogsSection)
   const contactSection = asRecord(homepage.contactSection)
+  const defaultSections = defaultContent.sections ?? {}
 
   return {
     profileImage:
@@ -188,7 +192,7 @@ function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null 
             blurDataUrl:
               typeof direct.profileImageBlurDataUrl === 'string' ? direct.profileImageBlurDataUrl : undefined,
           }
-        : metadata.profileImage ?? null,
+        : (metadata.profileImage as SiteContent['profileImage']) ?? null,
     hero: {
       ...defaultContent.hero,
       eyebrow: asString(hero.eyebrow, defaultContent.hero.eyebrow),
@@ -213,14 +217,12 @@ function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null 
     },
     navigation: asNavigation(metadata.navigation),
     sections: {
-      ...defaultContent.sections,
-      about: asBoolean(sections.about, defaultContent.sections.about),
+      ...defaultSections,
+      about: asBoolean(sections.about, defaultSections.about ?? true),
     },
     homepage: {
       order: Array.isArray(homepage.order)
-        ? homepage.order.filter((item): item is NonNullable<SiteContent['homepage']>['order'][number] =>
-            typeof item === 'string',
-          )
+        ? homepage.order.filter((item): item is HomepageSectionKey => typeof item === 'string')
         : defaultContent.homepage?.order,
       sections: {
         hero: asBoolean(homepageSections.hero, defaultContent.homepage?.sections?.hero),
@@ -341,7 +343,17 @@ function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null 
       description: asString(seo.description, defaultContent.seo.description),
       keywords: asStringArray(seo.keywords, defaultContent.seo.keywords),
     },
-    socialLinks: asNavigation(metadata.socialLinks).map(({ label, href }) => ({ label, href })),
+    socialLinks: Array.isArray(metadataSocialLinks)
+      ? metadataSocialLinks
+          .map((item) => {
+            const record = asRecord(item)
+            return {
+              label: asString(record.label),
+              href: asString(record.href),
+            }
+          })
+          .filter((item) => item.label && item.href)
+      : defaultContent.socialLinks,
   }
 }
 
