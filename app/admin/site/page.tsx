@@ -7,6 +7,17 @@ export default async function SiteAdminPage() {
   return (
     <SiteSettingsForm
       initialValues={{
+        siteName: content.seo.title ?? 'Anshul Portfolio',
+        siteDescription:
+          content.seo.description ??
+          'A premium CMS-powered portfolio for a full-stack engineer building enterprise dashboards, realtime systems, microservices, and AI-integrated applications.',
+        siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+        email: content.contact.email ?? 'hello@anshuljain.dev',
+        navigation: (content.navigation ?? []).map((item) => ({
+          label: item.label,
+          href: item.href,
+          enabled: item.enabled ?? true,
+        })),
         homepage: {
           order: (content.homepage?.order ?? []).join('\n'),
           sections: {
