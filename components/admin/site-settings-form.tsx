@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
@@ -70,6 +70,10 @@ export function SiteSettingsForm({ initialValues }: { initialValues: FormSchema 
   const router = useRouter()
   const form = useForm<FormSchema>({ defaultValues: initialValues })
   const [savingSection, setSavingSection] = useState<string | null>(null)
+
+  useEffect(() => {
+    form.reset(initialValues)
+  }, [form, initialValues])
 
   return (
     <div className="grid gap-6">
