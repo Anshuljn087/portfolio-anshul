@@ -5,6 +5,7 @@ import { siteSettingsRepository } from '@/services/repositories/site-settings-re
 import { skillRepository } from '@/services/repositories/skill-repository'
 import { siteConfig } from '@/constants/site'
 import type { SiteContent } from '@/types/cms'
+import { unstable_noStore as noStore } from 'next/cache'
 
 type JsonRecord = Record<string, unknown>
 type HomepageSectionKey = 'hero' | 'about' | 'skills' | 'experience' | 'projects' | 'blogs' | 'contact'
@@ -374,6 +375,8 @@ function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null 
 }
 
 export async function loadSiteContent() {
+  noStore()
+
   if (!process.env.DATABASE_URL) {
     return {
       content: defaultContent,
@@ -399,6 +402,8 @@ export async function loadSiteContent() {
 }
 
 export async function loadPortfolioCMS() {
+  noStore()
+
   if (!process.env.DATABASE_URL) {
     return {
       content: defaultContent,

@@ -12,6 +12,9 @@ import { listPublishedBlogs } from '@/services/blog-store'
 import type { SocialLink } from '@/types/cms'
 import type { PublicProject } from '@/types/project'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const HOME_SECTION_KEYS = ['hero', 'about', 'skills', 'experience', 'projects', 'blogs', 'contact'] as const
 
 export async function generateMetadata(): Promise<Metadata> {
