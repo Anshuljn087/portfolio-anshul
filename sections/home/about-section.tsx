@@ -38,7 +38,9 @@ export function AboutSection({
                 <h2 className="text-2xl font-semibold text-foreground">
                   {content.profileName ?? 'Profile'}
                 </h2>
-                <p className="mt-2 text-lg text-muted-foreground">{content.profileRole}</p>
+                <p className="mt-2 text-lg text-muted-foreground">
+                  {content.profileRole ?? 'Full Stack Engineer'}
+                </p>
               </div>
             </div>
           </div>

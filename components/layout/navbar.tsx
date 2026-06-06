@@ -14,7 +14,9 @@ export async function Navbar() {
         </Link>
         <div className="flex items-center gap-4">
           <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
-            {siteConfig.navigation.map((item) => (
+            {(content.navigation ?? siteConfig.navigation)
+              .filter((item) => item.enabled !== false)
+              .map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
@@ -22,7 +24,7 @@ export async function Navbar() {
               >
                 {item.label}
               </Link>
-            ))}
+              ))}
           </nav>
           <ProfileAvatar image={content.profileImage} size="sm" className="md:hidden" />
         </div>

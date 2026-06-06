@@ -23,12 +23,18 @@ async function main() {
   })
 
   const skills = [
-    { name: 'React', slug: 'react', category: 'Frontend', featured: true },
-    { name: 'Next.js', slug: 'nextjs', category: 'Frontend', featured: true },
-    { name: 'TypeScript', slug: 'typescript', category: 'Frontend', featured: true },
-    { name: 'Node.js', slug: 'nodejs', category: 'Backend', featured: true },
-    { name: 'NestJS', slug: 'nestjs', category: 'Backend', featured: true },
-    { name: 'PostgreSQL', slug: 'postgresql', category: 'Data', featured: true },
+    { name: 'React', slug: 'react', category: 'Frontend', level: 5, featured: true },
+    { name: 'Next.js', slug: 'nextjs', category: 'Frontend', level: 5, featured: true },
+    { name: 'TypeScript', slug: 'typescript', category: 'Frontend', level: 5, featured: true },
+    { name: 'Node.js', slug: 'nodejs', category: 'Backend', level: 4, featured: true },
+    { name: 'NestJS', slug: 'nestjs', category: 'Backend', level: 4, featured: true },
+    { name: 'AWS', slug: 'aws', category: 'Cloud', level: 4, featured: true },
+    { name: 'Docker', slug: 'docker', category: 'DevOps', level: 4, featured: true },
+    { name: 'PostgreSQL', slug: 'postgresql', category: 'DB', level: 4, featured: true },
+    { name: 'MongoDB', slug: 'mongodb', category: 'DB', level: 4, featured: true },
+    { name: 'RAG', slug: 'rag', category: 'Gen AI', level: 4, featured: true },
+    { name: 'Vector Search', slug: 'vector-search', category: 'Gen AI', level: 4, featured: true },
+    { name: 'WebSockets', slug: 'websockets', category: 'Realtime', level: 4, featured: true },
   ]
 
   for (const skill of skills) {

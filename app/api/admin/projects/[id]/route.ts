@@ -4,13 +4,21 @@ import { deleteProject, getProject, updateProject } from '@/services/project-sto
 
 const projectSchema = z.object({
   title: z.string().min(2).max(120),
+  projectType: z.enum(['PERSONAL', 'PROFESSIONAL']),
+  isConfidential: z.coerce.boolean(),
   slug: z
     .string()
     .min(2)
     .max(120)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/i, 'Use a URL-friendly slug'),
   summary: z.string().min(20).max(400),
+  duration: z.string().min(2).max(120),
   category: z.string().optional(),
+  businessDomain: z.string().optional(),
+  responsibilities: z.string().optional(),
+  myContributions: z.string().optional(),
+  keyAchievements: z.string().optional(),
+  teamSize: z.string().optional(),
   stack: z.string().min(2),
   status: z.enum(['published', 'draft']),
   featured: z.coerce.boolean(),
@@ -25,6 +33,13 @@ const projectSchema = z.object({
   metrics: z.string().optional(),
   seo: z.string().optional(),
   previewImage: z.string().url().optional().or(z.literal('')),
+  showGithub: z.coerce.boolean().optional(),
+  showLiveUrl: z.coerce.boolean().optional(),
+  showScreenshots: z.coerce.boolean().optional(),
+  showMetrics: z.coerce.boolean().optional(),
+  showArchitecture: z.coerce.boolean().optional(),
+  showChallenges: z.coerce.boolean().optional(),
+  showSolutions: z.coerce.boolean().optional(),
 })
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -41,9 +56,17 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const formData = await request.formData()
   const parsed = projectSchema.safeParse({
     title: formData.get('title'),
+    projectType: formData.get('projectType'),
+    isConfidential: formData.get('isConfidential') === 'on',
     slug: formData.get('slug'),
     summary: formData.get('summary'),
+    duration: formData.get('duration'),
     category: formData.get('category') ?? '',
+    businessDomain: formData.get('businessDomain') ?? '',
+    responsibilities: formData.get('responsibilities') ?? '',
+    myContributions: formData.get('myContributions') ?? '',
+    keyAchievements: formData.get('keyAchievements') ?? '',
+    teamSize: formData.get('teamSize') ?? '',
     stack: formData.get('stack'),
     status: formData.get('status'),
     featured: formData.get('featured') === 'on',
@@ -58,6 +81,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     metrics: formData.get('metrics') ?? '',
     seo: formData.get('seo') ?? '',
     previewImage: formData.get('previewImage') ?? '',
+    showGithub: formData.get('showGithub') === 'on',
+    showLiveUrl: formData.get('showLiveUrl') === 'on',
+    showScreenshots: formData.get('showScreenshots') === 'on',
+    showMetrics: formData.get('showMetrics') === 'on',
+    showArchitecture: formData.get('showArchitecture') === 'on',
+    showChallenges: formData.get('showChallenges') === 'on',
+    showSolutions: formData.get('showSolutions') === 'on',
   })
 
   if (!parsed.success) {

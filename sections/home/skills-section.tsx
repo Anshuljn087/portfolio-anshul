@@ -31,8 +31,8 @@ const categoryMeta: Record<
     icon: Workflow,
     accent: 'from-indigo-400/20 to-violet-400/10',
   },
-  ai: {
-    title: 'AI Systems Layer',
+  'gen ai': {
+    title: 'Gen AI Layer',
     description: 'RAG, semantic search, retrieval pipelines, and AI integrations built for production.',
     icon: Cpu,
     accent: 'from-emerald-400/20 to-teal-400/10',
@@ -43,17 +43,29 @@ const categoryMeta: Record<
     icon: Cloud,
     accent: 'from-amber-400/20 to-orange-400/10',
   },
+  db: {
+    title: 'Database Layer',
+    description: 'MongoDB, PostgreSQL, schema design, indexing, and platform-ready data modeling.',
+    icon: Database,
+    accent: 'from-slate-300/20 to-slate-500/10',
+  },
+  devops: {
+    title: 'DevOps Layer',
+    description: 'Deployment, CI/CD, monitoring, and release automation.',
+    icon: Cloud,
+    accent: 'from-amber-400/20 to-orange-400/10',
+  },
   realtime: {
     title: 'Realtime Systems Layer',
     description: 'WebSockets, live updates, event-driven interactions, and responsive data sync.',
     icon: Zap,
     accent: 'from-fuchsia-400/20 to-pink-400/10',
   },
-  data: {
-    title: 'Data Foundation Layer',
-    description: 'MongoDB, PostgreSQL, schema design, indexing, and platform-ready data modeling.',
-    icon: Database,
-    accent: 'from-slate-300/20 to-slate-500/10',
+  mobile: {
+    title: 'Mobile Layer',
+    description: 'App experiences, device-aware flows, and cross-platform delivery.',
+    icon: Braces,
+    accent: 'from-fuchsia-400/20 to-pink-400/10',
   },
 }
 
@@ -65,7 +77,7 @@ export function SkillsSection({ skills }: SkillSectionProps) {
     return acc
   }, {})
 
-  const orderedCategories = ['frontend', 'backend', 'ai', 'cloud', 'realtime', 'data']
+  const orderedCategories = ['frontend', 'backend', 'gen ai', 'cloud', 'db', 'devops', 'realtime', 'mobile']
   const hasSkills = skills.length > 0
 
   return (
@@ -130,6 +142,33 @@ export function SkillsSection({ skills }: SkillSectionProps) {
                             {item.name}
                           </motion.span>
                         ))}
+                      </div>
+
+                      <div className="relative mt-5 space-y-3">
+                        {items.slice(0, 6).map((item) => {
+                          const rating = Math.max(0, Math.min(5, item.level ?? 0))
+                          return (
+                            <div key={item.id} className="space-y-2">
+                              <div className="flex items-center justify-between gap-4 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                                <span>{item.name}</span>
+                                <span>{rating}/5</span>
+                              </div>
+                              <div className="flex gap-1">
+                                {Array.from({ length: 5 }).map((_, starIndex) => (
+                                  <span
+                                    key={starIndex}
+                                    className={[
+                                      'h-2.5 w-6 rounded-full transition-colors',
+                                      starIndex < rating
+                                        ? 'bg-gradient-to-r from-cyan-300 via-sky-300 to-cyan-100'
+                                        : 'bg-white/[0.08]',
+                                    ].join(' ')}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )
+                        })}
                       </div>
 
                       <div className="relative mt-6 flex items-center justify-between border-t border-white/10 pt-4 text-xs uppercase tracking-[0.25em] text-muted-foreground">

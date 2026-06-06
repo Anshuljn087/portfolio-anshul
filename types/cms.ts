@@ -41,6 +41,66 @@ export type SiteContent = {
     profileRole?: string
     body: string
   }
+  navigation?: Array<{
+    label: string
+    href: string
+    enabled?: boolean
+  }>
+  sections?: {
+    about?: boolean
+  }
+  homepage?: {
+    order?: Array<'hero' | 'about' | 'skills' | 'experience' | 'projects' | 'blogs' | 'contact'>
+    sections?: {
+      hero?: boolean
+      about?: boolean
+      skills?: boolean
+      experience?: boolean
+      projects?: boolean
+      blogs?: boolean
+      contact?: boolean
+    }
+    limits?: {
+      featuredProjects?: number
+      featuredBlogs?: number
+    }
+    heroSection?: {
+      badge?: string
+      shippingBadge?: string
+      title?: string
+      description?: string
+      focus?: string
+      frontendLabel?: string
+      frontendValue?: string
+      backendLabel?: string
+      backendValue?: string
+      stats?: Array<{ label: string; value: string }>
+    }
+    aboutSection?: {
+      eyebrow?: string
+      title?: string
+      description?: string
+      profileName?: string
+      profileRole?: string
+      body?: string
+    }
+    projectsSection?: {
+      eyebrow?: string
+      title?: string
+      description?: string
+    }
+    blogsSection?: {
+      eyebrow?: string
+      title?: string
+      description?: string
+    }
+    contactSection?: {
+      eyebrow?: string
+      title?: string
+      description?: string
+      ctaLabel?: string
+    }
+  }
   contact: {
     eyebrow?: string
     title: string

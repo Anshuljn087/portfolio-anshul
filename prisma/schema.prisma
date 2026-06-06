@@ -11,38 +11,59 @@ enum ProjectStatus {
   PUBLISHED
 }
 
+enum ProjectType {
+  PERSONAL
+  PROFESSIONAL
+}
+
 enum BlogStatus {
   DRAFT
   PUBLISHED
 }
 
 model Project {
-  id               String         @id @default(cuid())
-  title            String
-  slug             String         @unique
-  summary          String         @db.VarChar(400)
-  category         String?
-  content          String?        @db.Text
-  coverImage       String?
-  galleryImages    String[]
-  stack            String[]
-  status           ProjectStatus   @default(DRAFT)
-  featured         Boolean        @default(false)
-  sortOrder        Int            @default(0)
-  githubUrl        String?
-  liveUrl          String?
-  architectureNotes String?        @db.Text
-  challenges       String?        @db.Text
-  solutions        String?        @db.Text
-  metrics          Json?
-  seo              Json?
-  previewImage     String?
-  publishedAt      DateTime?
-  deletedAt        DateTime?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id                 String        @id @default(cuid())
+  title              String
+  slug               String        @unique
+  projectType        ProjectType   @default(PROFESSIONAL)
+  isConfidential     Boolean       @default(false)
+  summary            String        @db.VarChar(400)
+  duration           String
+  category           String?
+  businessDomain     String?
+  responsibilities   String?       @db.Text
+  myContributions    String?       @db.Text
+  keyAchievements    String?       @db.Text
+  teamSize           String?
+  content            String?       @db.Text
+  coverImage         String?
+  galleryImages      String[]
+  stack              String[]
+  status             ProjectStatus @default(DRAFT)
+  featured           Boolean       @default(false)
+  sortOrder          Int           @default(0)
+  githubUrl          String?
+  liveUrl            String?
+  architectureNotes  String?       @db.Text
+  challenges         String?       @db.Text
+  solutions          String?       @db.Text
+  metrics            Json?
+  seo                Json?
+  previewImage       String?
+  showGithub         Boolean       @default(true)
+  showLiveUrl        Boolean       @default(true)
+  showScreenshots    Boolean       @default(true)
+  showMetrics        Boolean       @default(true)
+  showArchitecture   Boolean       @default(true)
+  showChallenges     Boolean       @default(true)
+  showSolutions      Boolean       @default(true)
+  publishedAt        DateTime?
+  deletedAt          DateTime?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 
   @@index([status, featured])
+  @@index([projectType, featured])
   @@index([sortOrder])
   @@index([deletedAt])
   @@index([publishedAt])
@@ -127,6 +148,22 @@ model SiteSettings {
   updatedAt       DateTime @updatedAt
 
   @@index([deletedAt])
+}
+
+model ResumeAsset {
+  id           String   @id @default(cuid())
+  fileName     String
+  originalName  String
+  mimeType     String
+  size         Int
+  filePath     String   @unique
+  isCurrent    Boolean  @default(false)
+  deletedAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isCurrent, deletedAt])
+  @@index([createdAt])
 }
 
 model BlogCategory {

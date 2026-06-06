@@ -4,14 +4,27 @@ import { SectionWrapper } from '@/components/layout/section-wrapper'
 import { AnimatedSection } from '@/sections/home/animated-section'
 import type { PublicProject } from '@/types/project'
 
-export function ProjectsSection({ projects }: { projects: PublicProject[] }) {
+export function ProjectsSection({
+  projects,
+  content,
+}: {
+  projects: PublicProject[]
+  content: {
+    eyebrow?: string
+    title?: string
+    description?: string
+  }
+}) {
   const hasProjects = projects.length > 0
 
   return (
     <SectionWrapper
-      eyebrow="Featured Projects"
-      title="Selected work from the live project library."
-      description="Projects are fetched dynamically from the database so the public portfolio always reflects the latest admin changes."
+      eyebrow={content.eyebrow ?? 'Featured Projects'}
+      title={content.title ?? 'Selected work from the live project library.'}
+      description={
+        content.description ??
+        'Projects are fetched dynamically from the database so the public portfolio always reflects the latest admin changes.'
+      }
       id="projects"
     >
       <AnimatedSection>
