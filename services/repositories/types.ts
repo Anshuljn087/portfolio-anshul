@@ -3,11 +3,19 @@ import type { Prisma } from '@prisma/client'
 export type ProjectInput = {
   title: string
   slug: string
+  projectType: 'PERSONAL' | 'PROFESSIONAL'
+  isConfidential: boolean
   summary: string
+  duration: string
   category?: string | null
+  businessDomain?: string | null
+  responsibilities?: string | null
+  myContributions?: string | null
+  keyAchievements?: string | null
+  teamSize?: string | null
   content?: string
   coverImage?: string | null
-  galleryImages: string[]
+  galleryImages?: string[]
   stack: string[]
   status: 'DRAFT' | 'PUBLISHED'
   featured: boolean
@@ -20,6 +28,13 @@ export type ProjectInput = {
   metrics?: Prisma.InputJsonValue | null
   seo?: Prisma.InputJsonValue | null
   previewImage?: string | null
+  showGithub?: boolean
+  showLiveUrl?: boolean
+  showScreenshots?: boolean
+  showMetrics?: boolean
+  showArchitecture?: boolean
+  showChallenges?: boolean
+  showSolutions?: boolean
   publishedAt?: Date | null
 }
 

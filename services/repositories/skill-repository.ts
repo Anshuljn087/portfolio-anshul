@@ -23,6 +23,16 @@ export const skillRepository = {
       return null
     }
   },
+  async findById(id: string) {
+    try {
+      const prisma = await getPrisma()
+      return prisma.skill.findFirst({
+        where: { id, deletedAt: null },
+      })
+    } catch {
+      return null
+    }
+  },
   async create(data: SkillInput) {
     const prisma = await getPrisma()
     return prisma.skill.create({ data })

@@ -6,16 +6,25 @@ import type { BlogWithRelations } from '@/services/repositories/blog-repository'
 
 export function LatestBlogsSection({
   blogs,
+  content,
 }: {
   blogs: Array<Pick<BlogWithRelations, 'title' | 'slug' | 'excerpt' | 'readingTime' | 'tags' | 'categories'>>
+  content: {
+    eyebrow?: string
+    title?: string
+    description?: string
+  }
 }) {
   const hasBlogs = blogs.length > 0
 
   return (
     <SectionWrapper
-      eyebrow="Latest Blogs"
-      title="Recent engineering writing."
-      description="Thoughtful breakdowns on MERN architecture, AI systems, RAG, performance, WebSockets, and scalable backend patterns."
+      eyebrow={content.eyebrow ?? 'Latest Blogs'}
+      title={content.title ?? 'Recent engineering writing.'}
+      description={
+        content.description ??
+        'Thoughtful breakdowns on MERN architecture, AI systems, RAG, performance, WebSockets, and scalable backend patterns.'
+      }
       id="blogs"
     >
       <AnimatedSection>

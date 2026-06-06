@@ -14,6 +14,8 @@ export function HeroSection({
     eyebrow?: string
     title: string
     description: string
+    focus?: string
+    shippingBadge?: string
     profileImage?: {
       src: string
       alt: string
@@ -28,6 +30,10 @@ export function HeroSection({
     tertiaryCtaLabel?: string
     tertiaryCtaHref?: string
     stats?: Array<{ label: string; value: string }>
+    frontendLabel?: string
+    frontendValue?: string
+    backendLabel?: string
+    backendValue?: string
   }
 }) {
   const reduceMotion = useReducedMotion()
@@ -68,7 +74,7 @@ export function HeroSection({
               {content.eyebrow ?? 'Engineering Platform'}
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.28em] text-muted-foreground">
-              {content.stats?.[0]?.value ?? '7+ years'} of shipping software
+              {content.shippingBadge ?? content.stats?.[0]?.value ?? '7+ years of shipping software'}
             </span>
           </motion.div>
           <motion.h1
@@ -98,8 +104,8 @@ export function HeroSection({
             <div className="flex items-center justify-center">
               <ProfileAvatar image={content.profileImage} size="lg" className="ring-8 ring-background/60" />
             </div>
-            <InfoBlock label="Frontend" value="React / Next.js / TypeScript" />
-            <InfoBlock label="Backend" value="Node.js / NestJS / Express.js" />
+            <InfoBlock label={content.frontendLabel ?? 'Frontend'} value={content.frontendValue ?? 'React / Next.js / TypeScript'} />
+            <InfoBlock label={content.backendLabel ?? 'Backend'} value={content.backendValue ?? 'Node.js / NestJS / Express.js'} />
           </div>
           <div className="relative mt-8 grid gap-4 border-t border-white/10 pt-6 sm:grid-cols-3">
             {(content.stats ?? []).map((stat) => (
@@ -120,10 +126,10 @@ export function HeroSection({
             <p className="text-sm font-medium uppercase tracking-[0.34em] text-cyan-200/80">
               Focus
             </p>
-            <p className="mt-4 text-lg leading-8 text-slate-200">
-              Full-stack product engineering with a premium systems mindset, pairing crisp user
-              experiences with scalable backend architecture and AI-native workflows.
-            </p>
+              <p className="mt-4 text-lg leading-8 text-slate-200">
+                {content.focus ??
+                  'Full-stack product engineering with a premium systems mindset, pairing crisp user experiences with scalable backend architecture and AI-native workflows.'}
+              </p>
           </div>
           <div className="relative flex flex-wrap gap-3">
             <Link

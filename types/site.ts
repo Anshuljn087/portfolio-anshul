@@ -3,6 +3,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 export type NavigationItem = {
   label: string
   href: string
+  enabled?: boolean
 }
 
 export type SiteConfig = {
