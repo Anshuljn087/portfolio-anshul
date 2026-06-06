@@ -2,9 +2,18 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 
 export type FormSchema = {
+  siteName: string
+  siteDescription: string
+  siteUrl: string
+  email?: string | null
+  navigation: Array<{
+    label: string
+    href: string
+    enabled: boolean
+  }>
   homepage: {
     order: string
     sections: {
@@ -70,6 +79,10 @@ export function SiteSettingsForm({ initialValues }: { initialValues: FormSchema 
   const router = useRouter()
   const form = useForm<FormSchema>({ defaultValues: initialValues })
   const [savingSection, setSavingSection] = useState<string | null>(null)
+  const navigationFieldArray = useFieldArray({
+    control: form.control,
+    name: 'navigation',
+  })
 
   useEffect(() => {
     form.reset(initialValues)
@@ -80,6 +93,87 @@ export function SiteSettingsForm({ initialValues }: { initialValues: FormSchema 
       {form.formState.errors.root ? (
         <p className="text-sm text-red-300">{form.formState.errors.root.message}</p>
       ) : null}
+
+      <Accordion
+        title="Header settings"
+        description="Site identity and header navigation."
+        defaultOpen
+        onSave={() => saveHeaderSettings(form.getValues(), form.setError, router, setSavingSection)}
+        saving={savingSection === 'header'}
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <Field label="Site name">
+            <input {...form.register('siteName')} className={inputClass} />
+          </Field>
+          <Field label="Site description">
+            <input {...form.register('siteDescription')} className={inputClass} />
+          </Field>
+          <Field label="Site URL">
+            <input {...form.register('siteUrl')} className={inputClass} />
+          </Field>
+          <Field label="Email">
+            <input {...form.register('email')} className={inputClass} />
+          </Field>
+        </div>
+        <div className="grid gap-3">
+          <p className="text-sm text-muted-foreground">Navigation links</p>
+          {navigationFieldArray.fields.map((item, index) => (
+            <div
+              key={`${item.href}-${index}`}
+              className="grid gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 md:grid-cols-[1fr_1fr_auto] md:items-center"
+            >
+              <input {...form.register(`navigation.${index}.label`)} className={inputClass} />
+              <input {...form.register(`navigation.${index}.href`)} className={inputClass} />
+              <div className="flex flex-wrap items-center gap-2">
+                <label className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    {...form.register(`navigation.${index}.enabled` as const)}
+                    className="h-4 w-4 rounded border-white/20 bg-transparent"
+                  />
+                  Enabled
+                </label>
+                <button
+                  type="button"
+                  onClick={() => navigationFieldArray.move(index, index - 1)}
+                  disabled={index === 0}
+                  className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground disabled:opacity-40"
+                >
+                  Up
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigationFieldArray.move(index, index + 1)}
+                  disabled={index === navigationFieldArray.fields.length - 1}
+                  className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground disabled:opacity-40"
+                >
+                  Down
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigationFieldArray.remove(index)}
+                  className="rounded-full border border-red-400/30 px-3 py-1 text-xs text-red-200"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() =>
+              navigationFieldArray.append({
+                label: 'New link',
+                href: '/',
+                enabled: true,
+              })
+            }
+            className="inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 px-4 py-2 text-sm text-foreground"
+          >
+            Add link
+          </button>
+        </div>
+      </Accordion>
 
       <Accordion
         title="Homepage layout"
@@ -370,20 +464,41 @@ function buildHomepagePayload(values: FormSchema['homepage']) {
   }
 }
 
+function buildBasePayload(values: FormSchema) {
+  return {
+    siteName: values.siteName,
+    siteDescription: values.siteDescription,
+    siteUrl: values.siteUrl,
+    email: values.email ?? null,
+    navigation: values.navigation.map(({ label, href, enabled }) => ({
+      label,
+      href,
+      enabled,
+    })),
+    socialLinks: values.socialLinks ?? [],
+    profileImage: values.profileImage ?? null,
+    profileImageAlt: values.profileImageAlt ?? null,
+    profileImageBlurDataUrl: values.profileImageBlurDataUrl ?? null,
+  }
+}
+
 function saveHomepageLayout(
   values: FormSchema,
   setError: (name: 'root', error: { message?: string }) => void,
   router: ReturnType<typeof useRouter>,
   setSavingSection: React.Dispatch<React.SetStateAction<string | null>>,
 ) {
-  const payload = buildHomepagePayload({
+  const payload = {
+    ...buildBasePayload(values),
+    ...buildHomepagePayload({
     ...values.homepage,
     heroSection: values.homepage.heroSection,
     aboutSection: values.homepage.aboutSection,
     projectsSection: values.homepage.projectsSection,
     blogsSection: values.homepage.blogsSection,
     contactSection: values.homepage.contactSection,
-  })
+  }),
+  }
   return submitSettings(router, setSavingSection, 'homepage', payload, setError)
 }
 
@@ -397,7 +512,7 @@ function saveHeroSection(
     router,
     setSavingSection,
     'hero',
-    { homepage: { heroSection: values.homepage.heroSection } },
+    { ...buildBasePayload(values), homepage: { heroSection: values.homepage.heroSection } },
     setError,
   )
 }
@@ -412,7 +527,7 @@ function saveAboutSection(
     router,
     setSavingSection,
     'about',
-    { homepage: { aboutSection: values.homepage.aboutSection } },
+    { ...buildBasePayload(values), homepage: { aboutSection: values.homepage.aboutSection } },
     setError,
   )
 }
@@ -427,7 +542,7 @@ function saveProjectsSection(
     router,
     setSavingSection,
     'projects',
-    { homepage: { projectsSection: values.homepage.projectsSection } },
+    { ...buildBasePayload(values), homepage: { projectsSection: values.homepage.projectsSection } },
     setError,
   )
 }
@@ -442,7 +557,7 @@ function saveBlogsSection(
     router,
     setSavingSection,
     'blogs',
-    { homepage: { blogsSection: values.homepage.blogsSection } },
+    { ...buildBasePayload(values), homepage: { blogsSection: values.homepage.blogsSection } },
     setError,
   )
 }
@@ -457,7 +572,16 @@ function saveContactSection(
     router,
     setSavingSection,
     'contact',
-    { homepage: { contactSection: values.homepage.contactSection } },
+    { ...buildBasePayload(values), homepage: { contactSection: values.homepage.contactSection } },
     setError,
   )
+}
+
+function saveHeaderSettings(
+  values: FormSchema,
+  setError: (name: 'root', error: { message?: string }) => void,
+  router: ReturnType<typeof useRouter>,
+  setSavingSection: React.Dispatch<React.SetStateAction<string | null>>,
+) {
+  return submitSettings(router, setSavingSection, 'header', buildBasePayload(values), setError)
 }
