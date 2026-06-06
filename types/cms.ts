@@ -14,6 +14,10 @@ export type SeoSettings = {
 }
 
 export type SiteContent = {
+  siteName?: string
+  siteDescription?: string
+  siteUrl?: string
+  email?: string
   profileImage?: {
     src: string
     alt: string

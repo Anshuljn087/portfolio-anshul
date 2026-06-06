@@ -191,8 +191,24 @@ function normalizeContent(metadata: JsonRecord, siteSettings: JsonRecord | null 
             height: typeof direct.profileImageHeight === 'number' ? direct.profileImageHeight : undefined,
             blurDataUrl:
               typeof direct.profileImageBlurDataUrl === 'string' ? direct.profileImageBlurDataUrl : undefined,
-          }
+        }
         : (metadata.profileImage as SiteContent['profileImage']) ?? null,
+    siteName:
+      typeof direct.siteName === 'string' && direct.siteName
+        ? direct.siteName
+        : defaultContent.seo.title,
+    siteDescription:
+      typeof direct.siteDescription === 'string' && direct.siteDescription
+        ? direct.siteDescription
+        : defaultContent.seo.description,
+    siteUrl:
+      typeof direct.siteUrl === 'string' && direct.siteUrl
+        ? direct.siteUrl
+        : siteConfig.url,
+    email:
+      typeof direct.email === 'string' && direct.email
+        ? direct.email
+        : defaultContent.contact.email,
     hero: {
       ...defaultContent.hero,
       eyebrow: asString(hero.eyebrow, defaultContent.hero.eyebrow),
