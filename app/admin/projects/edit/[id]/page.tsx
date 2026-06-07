@@ -27,8 +27,17 @@ export default async function EditProjectPage({
           defaultValues={{
             title: project.title,
             slug: project.slug,
+            projectType: project.projectType,
+            isConfidential: project.isConfidential,
             summary: project.summary,
-            content: project.content ?? '',
+            duration: project.duration,
+            category: project.category ?? '',
+            businessDomain: project.businessDomain ?? '',
+            responsibilities: project.responsibilities ?? '',
+            myContributions: project.myContributions ?? '',
+            keyAchievements: project.keyAchievements ?? '',
+            teamSize: project.teamSize ?? '',
+            content: project.content ?? project.summary,
             stack: project.stack.join(', '),
             status: project.status.toLowerCase() as 'draft' | 'published',
             featured: project.featured,
@@ -43,6 +52,13 @@ export default async function EditProjectPage({
             metrics: project.metrics ? JSON.stringify(project.metrics, null, 2) : '',
             seo: project.seo ? JSON.stringify(project.seo, null, 2) : '',
             previewImage: project.previewImage ?? '',
+            showGithub: project.showGithub,
+            showLiveUrl: project.showLiveUrl,
+            showScreenshots: project.showScreenshots,
+            showMetrics: project.showMetrics,
+            showArchitecture: project.showArchitecture,
+            showChallenges: project.showChallenges,
+            showSolutions: project.showSolutions,
           }}
         />
       </div>

@@ -120,6 +120,8 @@ model Skill {
   slug        String    @unique
   category    String
   level       Int?
+  sortOrder   Int       @default(0)
+  sortBy      String    @default("CATEGORY")
   description String?   @db.VarChar(280)
   featured    Boolean   @default(false)
   deletedAt   DateTime?
@@ -127,6 +129,8 @@ model Skill {
   updatedAt   DateTime  @updatedAt
 
   @@index([category, featured])
+  @@index([sortOrder])
+  @@index([sortBy])
   @@index([deletedAt])
 }
 

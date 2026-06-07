@@ -70,6 +70,7 @@ export type SkillInput = {
   slug: string
   category: string
   level?: number | null
+  sortBy?: 'NAME' | 'CATEGORY'
   description?: string | null
   featured: boolean
 }

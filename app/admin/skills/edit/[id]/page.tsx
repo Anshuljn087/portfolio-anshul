@@ -26,6 +26,7 @@ export default async function EditSkillPage({
             slug: skill.slug,
             category: skill.category,
             level: skill.level ?? 0,
+            sortBy: (skill.sortBy as 'NAME' | 'CATEGORY') ?? 'CATEGORY',
             featured: skill.featured,
           }}
         />
