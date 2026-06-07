@@ -121,7 +121,7 @@ export function SkillsSection({ skills }: SkillSectionProps) {
                     panel will show the exact skills inside it.
                   </p>
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid min-w-0 w-full grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
                   <HeroStat label="Layers" value={categories.length} />
                   <HeroStat label="Skills" value={skills.length} />
                   <HeroStat label="Featured" value={skills.filter((skill) => skill.featured).length} />
@@ -279,9 +279,11 @@ export function SkillsSection({ skills }: SkillSectionProps) {
 
 function HeroStat({ label, value }: { label: string | number; value: string | number }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-      <p className="text-[0.62rem] uppercase tracking-[0.28em] text-muted-foreground">{label}</p>
-      <p className="mt-2 text-2xl font-semibold text-foreground">{value}</p>
+    <div className="min-w-0 w-full px-1 py-1 text-center">
+      <p className="text-[0.58rem] uppercase tracking-[0.12em] text-muted-foreground sm:text-[0.62rem] sm:tracking-[0.18em]">
+        {label}
+      </p>
+      <p className="mt-1 text-lg font-semibold leading-none text-foreground sm:text-xl">{value}</p>
     </div>
   )
 }
