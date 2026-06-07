@@ -7,7 +7,7 @@ export const skillRepository = {
       const prisma = await getPrisma()
       return prisma.skill.findMany({
         where: { deletedAt: null },
-        orderBy: [{ featured: 'desc' }, { category: 'asc' }, { name: 'asc' }],
+        orderBy: [{ featured: 'desc' }, { sortBy: 'asc' }, { category: 'asc' }, { name: 'asc' }],
       })
     } catch {
       return []
@@ -23,6 +23,17 @@ export const skillRepository = {
       return null
     }
   },
+  async findBySlugs(slugs: string[]) {
+    try {
+      const prisma = await getPrisma()
+      return prisma.skill.findMany({
+        where: { slug: { in: slugs }, deletedAt: null },
+        select: { slug: true },
+      })
+    } catch {
+      return []
+    }
+  },
   async findById(id: string) {
     try {
       const prisma = await getPrisma()
@@ -36,6 +47,13 @@ export const skillRepository = {
   async create(data: SkillInput) {
     const prisma = await getPrisma()
     return prisma.skill.create({ data })
+  },
+  async createMany(data: SkillInput[]) {
+    const prisma = await getPrisma()
+    return prisma.skill.createMany({
+      data,
+      skipDuplicates: true,
+    })
   },
   async update(id: string, data: SkillInput) {
     const prisma = await getPrisma()

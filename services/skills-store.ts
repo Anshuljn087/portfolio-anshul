@@ -1,4 +1,4 @@
-import type { Skill } from '@prisma/client'
+import type { Skill, Prisma } from '@prisma/client'
 import type { SkillInput } from '@/services/repositories/types'
 import { skillRepository } from '@/services/repositories/skill-repository'
 
@@ -12,6 +12,10 @@ export async function getSkill(id: string): Promise<Skill | null> {
 
 export async function createSkill(values: SkillInput): Promise<Skill> {
   return skillRepository.create(values)
+}
+
+export async function createSkills(values: SkillInput[]): Promise<Prisma.BatchPayload> {
+  return skillRepository.createMany(values)
 }
 
 export async function updateSkill(id: string, values: SkillInput): Promise<Skill> {
