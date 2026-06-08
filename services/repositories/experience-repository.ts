@@ -23,6 +23,16 @@ export const experienceRepository = {
       return null
     }
   },
+  async findById(id: string) {
+    try {
+      const prisma = await getPrisma()
+      return prisma.experience.findFirst({
+        where: { id, deletedAt: null },
+      })
+    } catch {
+      return null
+    }
+  },
   async create(data: ExperienceInput) {
     const prisma = await getPrisma()
     return prisma.experience.create({ data })
