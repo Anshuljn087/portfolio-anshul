@@ -51,3 +51,14 @@ export type ProjectFormValues = {
   showChallenges?: boolean
   showSolutions?: boolean
 }
+
+export type ExperienceFormValues = {
+  company: string
+  role: string
+  slug: string
+  location?: string
+  summary: string
+  startDate: string
+  endDate?: string
+  featured: boolean
+}
