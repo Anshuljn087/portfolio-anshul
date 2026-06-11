@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { ArchitectureMobileView } from '@/components/architecture/architecture-mobile-view'
 import { ArchitectureDiagram } from '@/components/architecture/architecture-diagram'
 import { architectureCaseStudies } from '@/constants/architecture'
 
@@ -27,26 +28,30 @@ export default async function ArchitectureCaseStudyPage({
   if (!study) notFound()
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <main className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
       <section className="max-w-4xl">
         <p className="text-sm uppercase tracking-[0.35em] text-cyan-300">Architecture Case Study</p>
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance sm:text-6xl">
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
           {study.title}
         </h1>
-        <p className="mt-5 text-lg leading-8 text-slate-300">{study.summary}</p>
+        <p className="mt-5 text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">{study.summary}</p>
       </section>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-4">
+      <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {study.metrics.map((metric) => (
-          <article key={metric.label} className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
+          <article key={metric.label} className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-4 sm:p-5">
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{metric.label}</p>
-            <h2 className="mt-3 text-2xl font-semibold">{metric.value}</h2>
+            <h2 className="mt-3 text-xl font-semibold sm:text-2xl">{metric.value}</h2>
             <p className="mt-2 text-sm leading-7 text-slate-300">{metric.detail}</p>
           </article>
         ))}
       </section>
 
-      <section className="mt-12">
+      <section className="mt-12 md:hidden">
+        <ArchitectureMobileView study={study} />
+      </section>
+
+      <section className="mt-12 hidden md:block">
         <ArchitectureDiagram study={study} />
       </section>
 
@@ -71,7 +76,7 @@ export default async function ArchitectureCaseStudyPage({
         <Card title="Lessons Learned" items={study.lessons} />
       </section>
 
-      <section className="mt-12 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6">
+      <section className="mt-12 rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 sm:p-6">
         <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">Technology Stack</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {study.stack.map((tech) => (

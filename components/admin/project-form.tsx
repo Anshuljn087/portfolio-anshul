@@ -331,7 +331,7 @@ export function ProjectForm({
       <button
         type="submit"
         disabled={form.formState.isSubmitting}
-        className="inline-flex w-fit items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 disabled:opacity-70"
+        className="inline-flex w-full items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 disabled:opacity-70 sm:w-fit"
       >
         {form.formState.isSubmitting ? 'Saving...' : mode === 'create' ? 'Create project' : 'Update project'}
       </button>
@@ -360,7 +360,7 @@ function VisibilitySection({
 }) {
   const label = projectType === 'PERSONAL' ? 'Personal Project Controls' : 'Professional Project Controls'
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">
+    <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 sm:p-5">
       <p className="text-sm uppercase tracking-[0.28em] text-cyan-300">{label}</p>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <ToggleField form={form} name="showGithub" label="Show GitHub" defaultChecked={visibilityDefaults.showGithub} />

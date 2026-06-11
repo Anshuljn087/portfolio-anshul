@@ -12,7 +12,7 @@ export default function ArchitectureShowcasePage() {
   return (
     <main>
       <ArchitectureShowcase />
-      <section className="mx-auto grid w-full max-w-7xl gap-4 px-4 pb-20 sm:px-6 lg:px-8 md:grid-cols-2 xl:grid-cols-4">
+      <section className="mx-auto grid w-full max-w-7xl gap-4 px-4 pb-20 sm:px-6 lg:px-8 sm:grid-cols-2 xl:grid-cols-4">
         {architectureCaseStudies[0]?.metrics.map((metric) => (
           <article
             key={metric.label}
@@ -27,7 +27,7 @@ export default function ArchitectureShowcasePage() {
       <div className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
         <Link
           href={`/architecture/${architectureCaseStudies[0].slug}`}
-          className="inline-flex items-center rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 text-sm text-cyan-200 transition-colors hover:bg-cyan-300/15"
+          className="inline-flex w-full items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 text-sm text-cyan-200 transition-colors hover:bg-cyan-300/15 sm:w-auto"
         >
           Open Case Study
         </Link>

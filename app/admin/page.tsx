@@ -16,11 +16,11 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-300">Overview</p>
-          <h2 className="mt-3 text-3xl font-semibold">Dashboard</h2>
+          <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">Dashboard</h2>
         </div>
         <Link
           href="/admin/projects/new"
-          className="inline-flex w-fit items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background"
+          className="inline-flex w-full items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background sm:w-fit"
         >
           New project
         </Link>
@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
         <Stat label="Pluggable modules" value="Ready" />
       </div>
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
           <p className="text-sm uppercase tracking-[0.28em] text-cyan-300">Admin Profile</p>
           <div className="mt-5 flex items-center gap-4">
             <ProfileAvatar
@@ -56,7 +56,7 @@ export default async function AdminDashboardPage() {
             </div>
           </div>
         </div>
-        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
           <p className="text-sm text-muted-foreground">
             The dashboard is intentionally slim and modular. Add new modules by extending the admin
             navigation and creating a new route folder.
@@ -69,7 +69,7 @@ export default async function AdminDashboardPage() {
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
+    <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 sm:p-6">
       <p className="text-sm text-muted-foreground">{label}</p>
       <p className="mt-3 text-3xl font-semibold">{value}</p>
     </div>
