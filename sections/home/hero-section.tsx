@@ -43,7 +43,7 @@ export function HeroSection({
   const gridY = useTransform(scrollY, [0, 900], [0, reduceMotion ? 0 : 140])
 
   return (
-    <section className="relative mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pb-20 lg:pt-16">
+    <section className="relative mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 pb-14 pt-10 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8 lg:pb-20 lg:pt-16">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <motion.div
           style={{ y: heroY }}
@@ -80,14 +80,14 @@ export function HeroSection({
           <motion.h1
             variants={textReveal}
             custom={0.08}
-            className="mt-7 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.05em] text-foreground sm:text-6xl md:text-7xl lg:text-[5.5rem] lg:leading-[0.92]"
+            className="mt-6 max-w-4xl text-balance text-4xl font-semibold tracking-[-0.05em] text-foreground sm:text-5xl md:text-6xl lg:text-[5.5rem] lg:leading-[0.92]"
           >
             {content.title}
           </motion.h1>
           <motion.p
             variants={textReveal}
             custom={0.14}
-            className="mt-6 max-w-3xl text-pretty text-lg leading-8 text-slate-300 sm:text-xl"
+            className="mt-5 max-w-3xl text-pretty text-base leading-7 text-slate-300 sm:text-lg sm:leading-8"
           >
             {content.description}
           </motion.p>
@@ -97,10 +97,10 @@ export function HeroSection({
       <AnimatedSection className="grid gap-6 lg:grid-cols-[1.45fr_0.95fr]">
         <motion.div
           style={{ y: glowY }}
-          className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-8 shadow-[0_30px_80px_-30px_rgba(34,211,238,0.28)] backdrop-blur-2xl sm:p-10"
+          className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 shadow-[0_30px_80px_-30px_rgba(34,211,238,0.28)] backdrop-blur-2xl sm:p-8 lg:p-10"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(129,140,248,0.12),transparent_28%)]" />
-          <div className="relative grid gap-8 sm:grid-cols-[auto_1fr_1fr]">
+          <div className="relative grid gap-6 sm:grid-cols-[auto_1fr_1fr] sm:gap-8">
             <div className="flex items-center justify-center">
               <ProfileAvatar image={content.profileImage} size="lg" className="ring-8 ring-background/60" />
             </div>
@@ -119,7 +119,7 @@ export function HeroSection({
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="relative grid gap-5 overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.03] p-8 backdrop-blur-2xl"
+          className="relative grid gap-5 overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.03] p-5 backdrop-blur-2xl sm:p-8"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_42%)]" />
           <div className="relative">
@@ -131,17 +131,17 @@ export function HeroSection({
                   'Full-stack product engineering with a premium systems mindset, pairing crisp user experiences with scalable backend architecture and AI-native workflows.'}
               </p>
           </div>
-          <div className="relative flex flex-wrap gap-3">
+          <div className="relative flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               href={content.primaryCtaHref ?? '#contact'}
-              className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform duration-300 hover:-translate-y-0.5"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform duration-300 hover:-translate-y-0.5 sm:w-auto"
             >
               {content.primaryCtaLabel ?? 'Contact'}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href={content.secondaryCtaHref ?? '/resume.pdf'}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-medium text-foreground transition-colors duration-300 hover:bg-white/[0.08]"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-medium text-foreground transition-colors duration-300 hover:bg-white/[0.08] sm:w-auto"
               download
             >
               {content.secondaryCtaLabel ?? 'Download Resume'}
@@ -149,14 +149,14 @@ export function HeroSection({
             </Link>
             <Link
               href={content.tertiaryCtaHref ?? '#projects'}
-              className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-cyan-100 transition-colors duration-300 hover:bg-cyan-400/15"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-3 text-sm font-medium text-cyan-100 transition-colors duration-300 hover:bg-cyan-400/15 sm:w-auto"
             >
               {content.tertiaryCtaLabel ?? 'View Projects'}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/architecture"
-              className="inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-400/10 px-5 py-3 text-sm font-medium text-violet-100 transition-colors duration-300 hover:bg-violet-400/15"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-violet-400/20 bg-violet-400/10 px-5 py-3 text-sm font-medium text-violet-100 transition-colors duration-300 hover:bg-violet-400/15 sm:w-auto"
             >
               Architecture Cases
               <ArrowRight className="h-4 w-4" />

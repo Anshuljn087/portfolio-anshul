@@ -21,13 +21,13 @@ export function ContactSection({
       id="contact"
     >
       <AnimatedSection>
-        <div className="flex flex-col gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-col gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-xl sm:p-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="text-lg leading-8 text-muted-foreground">{content.description}</p>
           </div>
           <Link
             href={`mailto:${content.email}`}
-            className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+            className="inline-flex w-full items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 md:w-auto"
           >
             {content.ctaLabel ?? content.email}
           </Link>

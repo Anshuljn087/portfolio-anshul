@@ -22,6 +22,9 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
+  const existing = await experienceRepository.findById(id)
+  if (!existing) return NextResponse.json({ message: 'Not found' }, { status: 404 })
+
   const formData = await request.formData()
   const parsed = schema.safeParse({
     company: formData.get('company'),

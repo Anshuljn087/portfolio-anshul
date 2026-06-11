@@ -101,7 +101,7 @@ export function SiteSettingsForm({ initialValues }: { initialValues: FormSchema 
         onSave={() => saveHeaderSettings(form.getValues(), form.setError, router, setSavingSection)}
         saving={savingSection === 'header'}
       >
-        <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
           <Field label="Site name">
             <input {...form.register('siteName')} className={inputClass} />
           </Field>
@@ -168,7 +168,7 @@ export function SiteSettingsForm({ initialValues }: { initialValues: FormSchema 
                 enabled: true,
               })
             }
-            className="inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 px-4 py-2 text-sm text-foreground"
+            className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 px-4 py-3 text-sm text-foreground sm:w-fit"
           >
             Add link
           </button>
@@ -381,7 +381,7 @@ function Accordion({
         type="button"
         onClick={onSave}
         disabled={saving}
-        className="mt-2 inline-flex w-fit items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 disabled:opacity-70"
+        className="mt-2 inline-flex w-full items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 disabled:opacity-70 sm:w-fit"
       >
         {saving ? 'Saving...' : 'Save section'}
       </button>

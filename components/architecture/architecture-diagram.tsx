@@ -81,8 +81,8 @@ export function ArchitectureDiagram({ study }: { study: ArchitectureCaseStudy })
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
-      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0B1020]/70 p-4 shadow-[0_24px_80px_-48px_rgba(34,211,238,0.35)] backdrop-blur-2xl">
-        <div className="relative h-[760px] overflow-hidden rounded-[1.5rem] border border-white/5 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_35%),radial-gradient(circle_at_top_right,rgba(139,92,246,0.14),transparent_30%),linear-gradient(180deg,rgba(15,23,42,0.9),rgba(11,16,32,0.96))]">
+      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0B1020]/70 p-3 shadow-[0_24px_80px_-48px_rgba(34,211,238,0.35)] backdrop-blur-2xl sm:p-4">
+        <div className="relative rounded-[1.5rem] border border-white/5 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_35%),radial-gradient(circle_at_top_right,rgba(139,92,246,0.14),transparent_30%),linear-gradient(180deg,rgba(15,23,42,0.9),rgba(11,16,32,0.96))]">
           <div className="absolute right-4 top-4 z-20 flex items-center gap-2 rounded-full border border-white/10 bg-[#111827]/90 p-2 shadow-lg backdrop-blur-xl">
             <button
               type="button"
@@ -115,7 +115,7 @@ export function ArchitectureDiagram({ study }: { study: ArchitectureCaseStudy })
 
           <div
             ref={canvasRef}
-            className="absolute left-0 top-0 h-full w-full cursor-grab active:cursor-grabbing"
+            className="relative hidden h-[760px] w-full cursor-grab active:cursor-grabbing md:block"
             onPointerDown={(event) => {
               ;(event.currentTarget as HTMLDivElement).setPointerCapture(event.pointerId)
               dragStart.current = { x: event.clientX - pan.x, y: event.clientY - pan.y }
@@ -202,14 +202,39 @@ export function ArchitectureDiagram({ study }: { study: ArchitectureCaseStudy })
               ))}
             </div>
           </div>
+
+          <div className="space-y-4 p-4 md:hidden">
+            <p className="text-xs uppercase tracking-[0.32em] text-cyan-300">Mobile flow</p>
+            <div className="space-y-3">
+              {study.nodes.map((node, index) => (
+                <div key={node.id} className="relative rounded-[1.35rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl">
+                  {index < study.nodes.length - 1 ? (
+                    <span className="absolute left-5 top-full h-3 w-px bg-white/15" aria-hidden="true" />
+                  ) : null}
+                  <div className="flex items-start gap-3">
+                    <div className={['rounded-2xl border px-3 py-2 text-[0.62rem] uppercase tracking-[0.24em]', layerStyles[node.layer]].join(' ')}>
+                      {node.subtitle}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-base font-semibold text-slate-50">{node.label}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-300">{node.details.slice(0, 2).join(' • ')}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs leading-6 text-slate-400">
+              Swipe through the desktop canvas on larger screens. The mobile view shows the same system as a compact flow to keep it readable.
+            </p>
+          </div>
         </div>
       </div>
 
-      <aside className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-2xl">
+      <aside className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-2xl sm:p-6">
         <p className="text-xs uppercase tracking-[0.32em] text-cyan-300">Selected Node</p>
         {selected ? (
           <>
-            <h3 className="mt-4 text-2xl font-semibold tracking-tight">{selected.label}</h3>
+            <h3 className="mt-4 text-xl font-semibold tracking-tight sm:text-2xl">{selected.label}</h3>
             <p className="mt-1 text-sm uppercase tracking-[0.24em] text-slate-400">{selected.subtitle}</p>
             <div className="mt-6 space-y-3">
               {selected.details.map((detail) => (
@@ -220,7 +245,7 @@ export function ArchitectureDiagram({ study }: { study: ArchitectureCaseStudy })
             </div>
           </>
         ) : (
-          <p className="mt-4 text-sm text-slate-400">Hover or click a node to inspect system behavior.</p>
+        <p className="mt-4 text-sm text-slate-400">Hover or click a node to inspect system behavior.</p>
         )}
       </aside>
     </div>

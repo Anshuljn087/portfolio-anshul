@@ -116,7 +116,7 @@ export function SkillForm({
   return (
     <div className="grid gap-6">
       {canImport ? (
-        <div className="rounded-[1.5rem] border border-dashed border-cyan-300/30 bg-cyan-300/5 p-5">
+        <div className="rounded-[1.5rem] border border-dashed border-cyan-300/30 bg-cyan-300/5 p-4 sm:p-5">
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-foreground">Import from Excel</p>
             <p className="text-sm text-muted-foreground">
@@ -182,7 +182,7 @@ export function SkillForm({
       {mode === 'create' ? (
         <div className="grid gap-4">
           {fieldArray.fields.map((field, index) => (
-            <div key={field.id} className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-4">
+            <div key={field.id} className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-4 sm:p-5">
               <div className="mb-4 flex items-center justify-between gap-4">
                 <p className="text-sm font-medium text-foreground">Skill {index + 1}</p>
                 {fieldArray.fields.length > 1 ? (
@@ -268,11 +268,11 @@ export function SkillForm({
               </label>
             </div>
           ))}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <button
               type="button"
               onClick={() => fieldArray.append(defaultSkillValues)}
-              className="inline-flex w-fit items-center justify-center rounded-2xl border border-white/10 px-5 py-3 text-sm font-medium text-foreground transition hover:bg-white/5"
+              className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 px-5 py-3 text-sm font-medium text-foreground transition hover:bg-white/5 sm:w-fit"
             >
               Add another skill
             </button>
@@ -336,7 +336,7 @@ export function SkillForm({
         <button
           type="submit"
           disabled={form.formState.isSubmitting}
-          className="inline-flex w-fit items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 disabled:opacity-70"
+          className="inline-flex w-full items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 disabled:opacity-70 sm:w-fit"
         >
           {submitButtonLabel}
         </button>

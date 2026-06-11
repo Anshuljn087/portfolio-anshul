@@ -29,10 +29,10 @@ export function AboutSection({
       id="about"
     >
       <AnimatedSection>
-        <div className="grid gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl lg:grid-cols-[1fr_1.2fr]">
+        <div className="grid gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-xl sm:p-8 lg:grid-cols-[1fr_1.2fr]">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-cyan-300">Profile</p>
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-4 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <ProfileAvatar image={content.profileImage} size="lg" />
               <div>
                 <h2 className="text-2xl font-semibold text-foreground">
